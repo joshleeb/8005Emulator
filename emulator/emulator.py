@@ -104,3 +104,34 @@ class Emulator:
     def _print_register0_char(self):
         """Prints the value in register 0 as an ASCII character."""
         print(chr(self.register0))
+
+
+def get_instructions(path):
+    """Reads the instruction sequence from the path."""
+    instructions = None
+
+    try:
+        with open(path) as f:
+            sequence = f.read()
+        instructions = sanitize(sequence)
+    except IOError:
+        print("Cannot open {}")
+        print("Check that the file exists.")
+
+    return instructions
+
+
+# TODO: cleanup
+def sanitize(seq):
+    """Sanitizes the instruction sequence."""
+    no_newline = seq.replace('\n', ' ').strip()
+    filtered = list(filter(lambda x: len(x) > 0 and x != ' ', no_newline))
+    int_list = list(map(int, filtered))
+
+    invalid_instructions = list(filter(lambda x: x not in range(18), int_list))
+
+    if len(invalid_instructions) > 0:
+        print("Invalid instructions: {}".format(invalid_instructions))
+        return None
+
+    return int_list
