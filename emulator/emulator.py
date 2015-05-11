@@ -25,7 +25,10 @@ class Emulator:
             self._print_register0_char         # 15
         ]
 
-    def execute(code):
+    def execute(self, code):
+        """Executes a microprocessor instruction."""
+        code = int(code)
+
         if 8 <= code <= 13:
             self.code[code](self.address + 1)
         else:
