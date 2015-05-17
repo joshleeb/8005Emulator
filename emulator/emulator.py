@@ -1,11 +1,12 @@
 class Emulator:
     def __init__(self, iP=0, r0=0, r1=0):
-        self.running = False   
+        self.running = False
         self.address = iP      # instruction pointer
         self.register0 = r0    # register 0
         self.register1 = r1    # register 1
 
         self.memory = [0 for i in range(255)]
+        self.registerSize = 256
 
         self.code = [
             self._halt,                        # 0
@@ -58,27 +59,27 @@ class Emulator:
 
     def _inc_register0(self):
         """Increment register 0 by 1."""
-        self.register0 = (self.register0 + 1) % 255
+        self.register0 = (self.register0 + 1) % self.registerSize
 
     def _dec_register0(self):
         """Decrements register 0 by 1."""
-        self.register0 = (self.register0 - 1) % 255
+        self.register0 = (self.register0 - 1) % self.registerSize
 
     def _inc_register1(self):
         """Increments register 1 by 1."""
-        self.register1 = (self.register1 + 1) % 255
+        self.register1 = (self.register1 + 1) % self.registerSize
 
     def _dec_register1(self):
         """Decrements register 1 by 1."""
-        self.register1 = (self.register1 - 1) % 255
+        self.register1 = (self.register1 - 1) % self.registerSize
 
     def _register0_add_register1(self):
         """Increments register 0 by the value in register 1."""
-        self.register0 = (self.register0 + self.register1) % 255
+        self.register0 = (self.register0 + self.register1) % self.registerSize
 
     def _register1_add_register0(self):
         """Increments register 1 by the value in register 0."""
-        self.register1 = (self.register1 + self.register0) % 255
+        self.register1 = (self.register1 + self.register0) % self.registerSize
 
     def _print_register0_uint(self):
         """Prints the value in register 0 as an integer."""
