@@ -11,7 +11,7 @@ def get_instructions(path):
         if len(invalid_instructions) > 0:
             _display_invalid_instructions(invalid_isntructions)
         else:
-            instructions = _linearify(sequence)
+            instructions = _linearify(seq)
     except IOError:
         print("Cannot open {}".format(path))
         print("Check that the file exists.")
@@ -43,7 +43,7 @@ def _identify_invalid_instructions(seq):
             try:
                 code = int(code)
 
-                if not instruction_in_range(code):
+                if not _instruction_in_range(code):
                     invalid.append({
                         'code'  : code,
                         'line'  : line,

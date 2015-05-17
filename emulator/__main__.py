@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
         if instructions:
             e = emulator.Emulator()
-            for i in instructions:
-                e.execute(i)
+            e.load_instructions(instructions)
+            e.execute()
     else:
         print(help_text)

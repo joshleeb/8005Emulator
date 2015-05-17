@@ -1,5 +1,6 @@
 class Emulator:
     def __init__(self, iP=0, r0=0, r1=0):
+        self.running = False   
         self.address = iP      # instruction pointer
         self.register0 = r0    # register 0
         self.register1 = r1    # register 1
@@ -25,19 +26,35 @@ class Emulator:
             self._print_register0_char         # 15
         ]
 
-    def execute(self, code):
-        """Executes a microprocessor instruction."""
-        code = int(code)
 
-        if 8 <= code <= 13:
-            self.code[code](self.address + 1)
-        else:
-            self.code[code]()
-        self.address += 1
+    def load_instructions(self, seq):
+        """Loads instructions into the emulator's memory."""
+        for i in range(len(seq)):
+            self.memory[i] = int(seq[i])
+
+
+    def execute(self):
+        """Executes a microprocessor instruction."""
+        self.running = True
+        while self.running:
+            code = self.memory[self.address]
+
+            if 8 <= code <= 13:
+                self.code[code](self.memory[self.address + 1])
+                self._next_address(increment=2)
+            else:
+                self.code[code]()
+                self._next_address()
+
+
+    def _next_address(self, increment=1):
+        self.address += increment
+        self.address %= 255
+
 
     def _halt(self):
         """Halts the emulator."""
-        return True
+        self.running = False
 
     def _inc_register0(self):
         """Increment register 0 by 1."""
