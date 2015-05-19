@@ -7,6 +7,24 @@ from emulator import emulator
 
 
 class TestEmulatorInstructions(unittest.TestCase):
+    def test_loading_instructions_without_breakpoint(self):
+        """load_instructions should load the instruction sequence into the
+        emulator's memory."""
+        e = emulator.Emulator()
+        seq = [1 for i in range(255)]
+        e.load_instructions(seq)
+
+        self.assertEqual(seq, e.memory)
+
+    def test_loading_instructions_with_breakpoints(self):
+        """load_instructions should load the instruction sequence into the
+        emulator's memory."""
+        e = emulator.Emulator()
+        seq = [1, 1, '|'] + [1 for i in range(253)]
+        e.load_instructions(seq)
+
+        self.assertEqual([1 for i in range(255)], e.memory)
+
     def test_incrementing_register0(self):
         """inc_register0 should increment register 0."""
         e = emulator.Emulator(r0=0)

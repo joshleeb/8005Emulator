@@ -31,11 +31,13 @@ class Emulator:
 
     def load_instructions(self, seq):
         """Loads instructions into the emulator's memory."""
+        mem_index = 0
         for i in range(len(seq)):
             if seq[i] == '|':
                 self.breakpoints.append(i)
             else:
-                self.memory[i] = int(seq[i])
+                self.memory[mem_index] = int(seq[i])
+                mem_index += 1
 
 
     def execute(self):
