@@ -40,21 +40,22 @@ def _identify_invalid_instructions(seq):
         line = i + 1
 
         for code in list(filter(lambda x: len(x) > 0, seq[i].split(' '))):
-            try:
-                code = int(code)
+            if code != '|':     # allow breakpoint operator
+                try:
+                    code = int(code)
 
-                if not _instruction_in_range(code):
+                    if not _instruction_in_range(code):
+                        invalid.append({
+                            'code'  : code,
+                            'line'  : line,
+                            'error' : SyntaxError
+                        })
+                except ValueError:
                     invalid.append({
                         'code'  : code,
                         'line'  : line,
-                        'error' : SyntaxError
+                        'error' : ValueError
                     })
-            except ValueError:
-                invalid.append({
-                    'code'  : code,
-                    'line'  : line,
-                    'error' : ValueError
-                })
 
     return invalid
 

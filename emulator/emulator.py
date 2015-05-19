@@ -5,6 +5,7 @@ class Emulator:
         self.register0 = r0    # register 0
         self.register1 = r1    # register 1
 
+        self.breakpoints = []   # address locations of breakpoints
         self.memory = [0 for i in range(255)]
         self.registerSize = 256
 
@@ -31,7 +32,10 @@ class Emulator:
     def load_instructions(self, seq):
         """Loads instructions into the emulator's memory."""
         for i in range(len(seq)):
-            self.memory[i] = int(seq[i])
+            if seq[i] == '|':
+                self.breakpoints.append(i)
+            else:
+                self.memory[i] = int(seq[i])
 
 
     def execute(self):
@@ -40,12 +44,24 @@ class Emulator:
         while self.running:
             code = self.memory[self.address]
 
+            if self.address in self.breakpoints:
+                self._execute_breakpoint()
+
             if 8 <= code <= 13:
                 self.code[code](self.memory[self.address + 1])
                 self._next_address(increment=2)
             else:
                 self.code[code]()
                 self._next_address()
+
+
+    def _execute_breakpoint(self):
+        print('-- breakpoint -------------')
+        print('IP\tIS\tR0\tR1')
+        print('{}\t{}\t{}\t{}'.format(self.address, self.memory[self.address],
+            self.register0, self.register1))
+        input('Press enter to continue')
+        print('\x1b[1A\r---------------------------')
 
 
     def _next_address(self, increment=1):
@@ -117,7 +133,7 @@ class Emulator:
 
     def _ring_bell(self):
         """Rings the bell."""
-        print("\a")
+        pass
 
     def _print_register0_char(self):
         """Prints the value in register 0 as an ASCII character."""
