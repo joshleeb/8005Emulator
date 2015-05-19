@@ -46,15 +46,15 @@ def _identify_invalid_instructions(seq):
 
                     if not _instruction_in_range(code):
                         invalid.append({
-                            'code'  : code,
-                            'line'  : line,
-                            'error' : SyntaxError
+                            'code': code,
+                            'line': line,
+                            'error': SyntaxError
                         })
                 except ValueError:
                     invalid.append({
-                        'code'  : code,
-                        'line'  : line,
-                        'error' : ValueError
+                        'code': code,
+                        'line': line,
+                        'error': ValueError
                     })
 
     return invalid
@@ -71,4 +71,4 @@ def _display_invalid_instructions(seq):
             message = 'Invalid instruction code'
 
         print('Line {}, instruction \'{}\' -> {}'.format(invalid['line'],
-            invalid['code'], message))
+              invalid['code'], message))

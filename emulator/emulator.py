@@ -28,7 +28,6 @@ class Emulator:
             self._print_register0_char         # 15
         ]
 
-
     def load_instructions(self, seq):
         """Loads instructions into the emulator's memory."""
         mem_index = 0
@@ -38,7 +37,6 @@ class Emulator:
             else:
                 self.memory[mem_index] = int(seq[i])
                 mem_index += 1
-
 
     def execute(self):
         """Executes a microprocessor instruction."""
@@ -56,20 +54,17 @@ class Emulator:
                 self.code[code]()
                 self._next_address()
 
-
     def _execute_breakpoint(self):
         print('-- breakpoint -------------')
         print('IP\tIS\tR0\tR1')
         print('{}\t{}\t{}\t{}'.format(self.address, self.memory[self.address],
-            self.register0, self.register1))
+              self.register0, self.register1))
         input('Press enter to continue')
         print('\x1b[1A\r---------------------------')
-
 
     def _next_address(self, increment=1):
         self.address += increment
         self.address %= 255
-
 
     def _halt(self):
         """Halts the emulator."""
