@@ -28,6 +28,7 @@ def _linearify(seq):
 
 
 def _instruction_in_range(instruction):
+    """Returns whether the instruction is within the valid range."""
     return 0 <= instruction <= 15
 
 
