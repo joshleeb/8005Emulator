@@ -29,7 +29,7 @@ Code  | Instruction
 `4`   | decrement `register 1` by 1
 `5`   | add the value in `register 1` to the value in `register 0`
 `6`   | add the value in `register 0` to the value in `register 1`
-`7`   | print the value in register 0 as an unsigned integer
+`7`   | print the value in `register 0` as an unsigned integer
 `8`   | if the value of `register 0` is 0 then jump to a specified address
 `9`   | if the value of `register 0` is not 0 then jump to a specified address
 `10`  | reads the value at a specified address into `register 0`
