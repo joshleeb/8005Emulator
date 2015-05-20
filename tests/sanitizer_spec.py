@@ -23,6 +23,20 @@ class TestSanitizer(unittest.TestCase):
         for i in invalid:
             self.assertFalse(sanitizer._instruction_in_range(i))
 
+    def test_remove_comments_inline(self):
+        """remove_comments should remove inline comments while unchanging the
+        instruction sequence."""
+        seq = '1 2 3 ; blah blah blah\n 4 5 6'
+
+        self.assertEqual(sanitizer._remove_comments(seq), '1 2 3  4 5 6')
+
+    def test_remove_comments_above_line(self):
+        """remove_comments should remove above line comments while unchanging
+        the instruction sequence."""
+        seq = '1 2 3 \n; blah blah blah\n 4 5 6'
+
+        self.assertEqual(sanitizer._remove_comments(seq), '1 2 3 \n 4 5 6')
+
     def test_valid_instruction_in_range(self):
         """instruction_in_range should should be true for integer instructions
         within the valid range."""

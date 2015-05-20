@@ -59,6 +59,9 @@ A `ValueError` occurs when an instruction is invalid. That is it is not an integ
 
 ## Debugging Features
 
+### Comments
+Comments can be set by placing a `;`. Any characters between the start of the comment and the next newline character `\n` will be ignored when executing the instructions. As such, comments can be used as either in or above the line.
+
 ### Breakpoints
 Breakpoints can be set by placing a `|` anywhere within the file containing the instruction sequence.
 
@@ -70,8 +73,3 @@ Abbreviation | Value
 `IS`         | instruction store
 `R0`         | register 0
 `R1`         | register 1
-
-
-## TODO
-
-+ Implement the ability to add comments to the instruction sequence

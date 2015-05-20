@@ -1,3 +1,6 @@
+import re
+
+
 def get_instructions(path):
     """Reads the instruction sequence from the path."""
     instructions = None
@@ -6,10 +9,11 @@ def get_instructions(path):
         with open(path) as f:
             seq = f.read()
 
+        seq = _remove_comments(seq)
         invalid_instructions = _identify_invalid_instructions(seq)
 
         if len(invalid_instructions) > 0:
-            _display_invalid_instructions(invalid_isntructions)
+            _display_invalid_instructions(invalid_instructions)
         else:
             instructions = _linearify(seq)
     except IOError:
@@ -32,16 +36,21 @@ def _instruction_in_range(instruction):
     return 0 <= instruction <= 15
 
 
+def _remove_comments(seq):
+    return re.sub(r';.*?\n', '', seq)
+
+
 def _identify_invalid_instructions(seq):
     """Identifies invalid instructions."""
     invalid = []
+    other_valid_syntax = ['|'] # allow breakpoints
     seq = seq.split('\n')
 
     for i in range(len(seq)):
         line = i + 1
 
         for code in list(filter(lambda x: len(x) > 0, seq[i].split(' '))):
-            if code != '|':     # allow breakpoint operator
+            if code not in other_valid_syntax:
                 try:
                     code = int(code)
 
